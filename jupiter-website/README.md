@@ -1,7 +1,3 @@
-Below is an example of a comprehensive README file for your project. You can copy this content into your repository’s README.md file.
-
----
-
 # AWS Cloud Static Website Deployment
 
 This project hosts a static website on AWS using Docker, Amazon ECR, and ECS with Fargate. The project demonstrates how to containerize a static website, deploy it to AWS, and expose it via an Application Load Balancer (ALB) with SSL encryption.
