@@ -78,11 +78,7 @@ Follow these steps to deploy the project:
 ## References
 
 - [Docker Documentation](https://docs.docker.com)
-- [AWS ECS and Fargate Documentation](https://docs.aws.amazon.com/ecs/latest/developerguide/what-is-fargate.html)
+- [AWS ECS and Fargate Documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html)
 - [AWS ECR Documentation](https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html)
 - [AWS Route 53 Documentation](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html)
 - [AWS Certificate Manager Documentation](https://docs.aws.amazon.com/acm/latest/userguide/)
-
----
-
-This README provides a structured outline of your project’s architecture, deployment steps, and AWS resource setup. Be sure to update the links (e.g., to the reference diagram) and add any additional details specific to your implementation as needed.
