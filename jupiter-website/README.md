@@ -8,7 +8,7 @@ The project builds a container image from a Dockerfile and stores it in Docker H
 
 ## Architecture Diagram
 
-For a visual overview of the architecture, refer to the [reference diagram](link-to-diagram). This diagram outlines:
+For a visual overview of the architecture, refer to the [reference diagram](jupiter-website/Static_Site_Docker_ECR_ECS.png). This diagram outlines:
 - The VPC with public and private subnets across two Availability Zones.
 - The Internet Gateway that connects the VPC to the internet.
 - The Application Load Balancer (ALB) directing traffic to ECS tasks.
