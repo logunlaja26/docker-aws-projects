@@ -1,5 +1,5 @@
 # Use the latest version of the Amazon Linux base image
-FROM amazonlinux:2
+FROM amazonlinux:latest
 
 # Update all installed packages to thier latest versions
 RUN yum update -y 
@@ -13,26 +13,19 @@ RUN yum install -y wget
 # Install Apache
 RUN yum install -y httpd
 
-
 # Install PHP and various extensions
-RUN amazon-linux-extras enable php8.0 && \
+RUN amazon-linux-extras enable php7.4 && \
   yum clean metadata && \
   yum install -y \
     php \
-    php-bcmath \ 
-    php-ctype \
-    php-cli \
     php-common \
     php-pear \
     php-cgi \
     php-curl \
     php-mbstring \
     php-gd \
-    php-pdo \ 
     php-mysqlnd \
-    php-openssl \ 
     php-gettext \
-    php-fileinfo \
     php-json \
     php-xml \
     php-fpm \
@@ -40,13 +33,13 @@ RUN amazon-linux-extras enable php8.0 && \
     php-zip
 
 # Download the MySQL repository package
-RUN wget https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+RUN wget https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm
 
 # Import the GPG key for the MySQL repository
 RUN rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
 
 # Install the MySQL repository package
-RUN yum localinstall mysql80-community-release-el9.rpm -y
+RUN yum localinstall mysql80-community-release-el7-3.noarch.rpm -y
 
 # Install the MySQL community server package
 RUN yum install mysql-community-server -y
@@ -61,6 +54,8 @@ RUN yum install -y git
 ARG PERSONAL_ACCESS_TOKEN
 ARG GITHUB_USERNAME
 ARG REPOSITORY_NAME
+ARG WEB_FILE_ZIP
+ARG WEB_FILE_UNZIP
 ARG DOMAIN_NAME
 ARG RDS_ENDPOINT
 ARG RDS_DB_NAME
@@ -71,15 +66,22 @@ ARG RDS_DB_PASSWORD
 ENV PERSONAL_ACCESS_TOKEN=$PERSONAL_ACCESS_TOKEN
 ENV GITHUB_USERNAME=$GITHUB_USERNAME
 ENV REPOSITORY_NAME=$REPOSITORY_NAME
+ENV WEB_FILE_ZIP=$WEB_FILE_ZIP
+ENV WEB_FILE_UNZIP=$WEB_FILE_UNZIP
 ENV DOMAIN_NAME=$DOMAIN_NAME
 ENV RDS_ENDPOINT=$RDS_ENDPOINT
 ENV RDS_DB_NAME=$RDS_DB_NAME
 ENV RDS_MASTER_USERNAME=$RDS_MASTER_USERNAME
 ENV RDS_DB_PASSWORD=$RDS_DB_PASSWORD
 
+# Clone the GitHub repository
+RUN git clone https://$PERSONAL_ACCESS_TOKEN@github.com/$GITHUB_USERNAME/$REPOSITORY_NAME.git
 
-# Clone the GitHub repository directly into /var/www/html
-RUN git clone https://$PERSONAL_ACCESS_TOKEN@github.com/$GITHUB_USERNAME/$REPOSITORY_NAME.git /var/www/html
+# Unzip the zip folder containing the web files
+RUN unzip $REPOSITORY_NAME/$WEB_FILE_ZIP -d $REPOSITORY_NAME/
+
+# Copy the web files into the HTML directory
+RUN cp -av $REPOSITORY_NAME/$WEB_FILE_UNZIP/. /var/www/html
 
 # Remove the repository we cloned
 RUN rm -rf $REPOSITORY_NAME
